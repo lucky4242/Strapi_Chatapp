@@ -11,14 +11,17 @@ const ChatBox = () => {
   };
   useEffect(scrollToBottom, [messages]);
   useEffect(() => {
-    fetch("http://localhost:1337/api/chat-room-messages", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((res) => setMessages(res.data));
+    const interval = setInterval(() => {
+      fetch("http://localhost:1337/api/chat-room-messages", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((res) => setMessages(res.data));
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
